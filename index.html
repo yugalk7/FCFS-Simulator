@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScheduleLab — CPU Scheduling Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <a class="brand" href="#"><span class="brand-mark">⌁</span> ScheduleLab</a>
+        <div class="header-note"><span></span> CPU scheduler playground</div>
+      </header>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">OPERATING SYSTEMS · INTERACTIVE LAB</p>
+          <h1>Make time <em>visible.</em></h1>
+          <p class="lede">Compare how CPU scheduling strategies make their decisions, one process at a time.</p>
+        </div>
+        <div class="algorithm-tabs" role="tablist">
+          <button class="algo active" data-algo="fcfs">FCFS <small>First come</small></button>
+          <button class="algo" data-algo="sjf">SJF <small>Shortest job</small></button>
+          <button class="algo" data-algo="rr">RR <small>Time slice</small></button>
+          <button class="algo" data-algo="priority">Priority <small>Preemptive</small></button>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="controls card">
+          <div class="panel-title"><div><p class="eyebrow">INPUT</p><h2>Process queue</h2></div><button class="text-btn" id="loadExample">Load example</button></div>
+          <form class="process-form" id="processForm">
+            <div class="form-field"><label for="arrival">Arrival</label><input id="arrival" type="number" min="0" value="0" /></div>
+            <div class="form-field"><label for="burst">Burst</label><input id="burst" type="number" min="1" value="3" /></div>
+            <div class="form-field"><label for="priority">Priority</label><input id="priority" type="number" min="1" value="1" /></div>
+            <button class="queue-btn" type="submit">Add to queue <b>+</b></button>
+          </form>
+          <div class="queue-label"><span>Current queue</span><span id="queueCount">0 processes</span></div>
+          <div class="table-wrap">
+            <table id="processTable">
+              <thead><tr><th>Process</th><th>Arrival</th><th>Burst</th><th>Priority <i title="Lower number = higher priority">?</i></th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="setting" id="quantumSetting">
+            <label for="quantum">Time quantum <span id="quantumValue">2</span></label>
+            <input id="quantum" type="range" min="1" max="8" value="2" />
+            <div class="range-labels"><span>1 tick</span><span>8 ticks</span></div>
+          </div>
+          <button class="run-btn" id="run">Run simulation <b>→</b></button>
+        </aside>
+
+        <section class="results">
+          <div class="result-heading">
+            <div><p class="eyebrow" id="resultKicker">FIRST COME, FIRST SERVED</p><h2 id="resultTitle">Execution timeline</h2></div>
+            <div class="legend"><span><i class="run-dot"></i> running</span><span><i class="idle-dot"></i> idle</span></div>
+          </div>
+          <div class="timeline-card card">
+            <div class="gantt" id="gantt"></div>
+            <div class="time-axis" id="axis"></div>
+          </div>
+          <div class="ready-card card">
+            <div class="ready-head"><div><p class="eyebrow">REPORT · READY QUEUE</p><h3>Process arrival order</h3></div><span id="readyNote">Add processes to begin</span></div>
+            <div class="ready-queue" id="readyQueue"><span class="queue-empty">Queue is empty</span></div>
+          </div>
+          <div class="metrics" id="metrics"></div>
+          <div class="details card">
+            <div class="details-head"><div><p class="eyebrow">PER-PROCESS RESULTS</p><h2>Turnaround report</h2></div><p class="hint">TAT = completion − arrival</p></div>
+            <div class="table-wrap"><table id="resultTable"><thead><tr><th>Process</th><th>Completion</th><th>Turnaround</th><th>Waiting</th><th>Response</th></tr></thead><tbody></tbody></table></div>
+          </div>
+        </section>
+      </section>
+      <footer>Lower priority numbers run first · SJF is non-preemptive · Timeline units are CPU ticks</footer>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
